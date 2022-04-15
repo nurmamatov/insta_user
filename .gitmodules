@@ -1,0 +1,3 @@
+[submodule "insta_proto"]
+	path = insta_proto
+	url = https://github.com/nurmamatov/insta_proto
