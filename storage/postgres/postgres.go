@@ -178,3 +178,6 @@ func (r *UserRepo) Login(req *pu.LoginReq) (*pu.GetUserRes, error) {
 
 	return r.GetUser(&pu.GetUserReq{Username: req.Username})
 }
+func (r *UserRepo) UpdatePassword(req *pu.UpdatePass) (*pu.Message, error) {
+	return nil, nil
+}

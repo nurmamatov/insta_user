@@ -11,4 +11,5 @@ type UserStorageI interface {
 	DeleteUser(*pu.DeleteUserReq) (*pu.Message, error)
 	SearchUser(*pu.SearchUserReq) (*pu.UserList, error)
 	Login(*pu.LoginReq) (*pu.GetUserRes, error)
+	UpdatePassword(*pu.UpdatePass) (*pu.Message, error)
 }

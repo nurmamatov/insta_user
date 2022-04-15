@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	pp "tasks/Instagram_clone/insta_user/genproto/post_proto"
 	pu "tasks/Instagram_clone/insta_user/genproto/user_proto"
 
 	grpcClient "tasks/Instagram_clone/insta_user/service/grpc_client"
@@ -39,6 +40,31 @@ func (r *PostService) GetUser(ctx context.Context, req *pu.GetUserReq) (*pu.GetU
 	if err != nil {
 		return nil, err
 	}
+	list, err := r.client.PostService().ListUserPosts(ctx, &pp.ListPostsReq{UserId: res.UserId})
+	if err != nil {
+		return nil, err
+	}
+	for _, i := range list.Posts {
+		posts := pu.Posts{
+			UserId:      i.UserId,
+			PostId:      i.PostId,
+			CheckLike:   i.CheckLike,
+			Title:       i.Title,
+			Description: i.Description,
+			Image:       i.Image,
+			Likes:       i.Likes,
+			CreatedAt:   i.CreatedAt,
+		}
+		for _, j := range i.Comments {
+			comments := pu.Comment{
+				CommentId: j.CommentId,
+				UserId:    j.UserId,
+				Text:      j.Text,
+			}
+			posts.Comments = append(posts.Comments, &comments)
+		}
+		res.Posts = append(res.Posts, &posts)
+	}
 	return res, nil
 }
 func (r *PostService) UpdateUser(ctx context.Context, req *pu.UpdateUserReq) (*pu.GetUserRes, error) {
@@ -64,6 +90,13 @@ func (r *PostService) SearchUser(ctx context.Context, req *pu.SearchUserReq) (*p
 }
 func (r *PostService) Login(ctx context.Context, req *pu.LoginReq) (*pu.GetUserRes, error) {
 	res, err := r.storage.User().Login(req)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+func (r *PostService) UpdatePassword(ctx context.Context, req *pu.UpdatePass) (*pu.Message, error) {
+	res, err := r.storage.User().UpdatePassword(req)
 	if err != nil {
 		return nil, err
 	}
