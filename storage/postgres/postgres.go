@@ -165,15 +165,16 @@ func (r *UserRepo) SearchUser(req *pu.SearchUserReq) (*pu.UserList, error) {
 func (r *UserRepo) Login(req *pu.LoginReq) (*pu.GetUserRes, error) {
 
 	var (
-		username string
+		check int
 	)
-	query := `SELECT username FROM users WHERE user_id=$1 AND password=$2 AND deleted_at IS NULL`
-	err := r.db.QueryRow(query, req.UserId, req.Password).Scan(
-		&username,
+	query := `SELECT COUNT(*) FROM users WHERE username=$1 AND password=$2 AND deleted_at IS NULL`
+	err := r.db.QueryRow(query, req.Username, req.Password).Scan(
+		&check,
 	)
 	if err != nil {
 		log.Println("Error while login")
 		return nil, err
 	}
-	return r.GetUser(&pu.GetUserReq{Username: username})
+
+	return r.GetUser(&pu.GetUserReq{Username: req.Username})
 }

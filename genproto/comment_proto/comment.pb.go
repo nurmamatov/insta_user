@@ -91,7 +91,6 @@ func (m *CreateCommentReq) GetText() string {
 
 type GetCommentReq struct {
 	PostId               string   `protobuf:"bytes,1,opt,name=post_id,json=postId,proto3" json:"post_id"`
-	UserId               string   `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -133,13 +132,6 @@ var xxx_messageInfo_GetCommentReq proto.InternalMessageInfo
 func (m *GetCommentReq) GetPostId() string {
 	if m != nil {
 		return m.PostId
-	}
-	return ""
-}
-
-func (m *GetCommentReq) GetUserId() string {
-	if m != nil {
-		return m.UserId
 	}
 	return ""
 }
@@ -356,7 +348,7 @@ func (m *Empty) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Empty proto.InternalMessageInfo
 
-type GetCommentRes struct {
+type Res struct {
 	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id"`
 	Text                 string   `protobuf:"bytes,2,opt,name=text,proto3" json:"text"`
 	CreatedAt            string   `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at"`
@@ -367,18 +359,18 @@ type GetCommentRes struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GetCommentRes) Reset()         { *m = GetCommentRes{} }
-func (m *GetCommentRes) String() string { return proto.CompactTextString(m) }
-func (*GetCommentRes) ProtoMessage()    {}
-func (*GetCommentRes) Descriptor() ([]byte, []int) {
+func (m *Res) Reset()         { *m = Res{} }
+func (m *Res) String() string { return proto.CompactTextString(m) }
+func (*Res) ProtoMessage()    {}
+func (*Res) Descriptor() ([]byte, []int) {
 	return fileDescriptor_03e2197c914a4a89, []int{6}
 }
-func (m *GetCommentRes) XXX_Unmarshal(b []byte) error {
+func (m *Res) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetCommentRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Res) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetCommentRes.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Res.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -388,49 +380,159 @@ func (m *GetCommentRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *GetCommentRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetCommentRes.Merge(m, src)
+func (m *Res) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Res.Merge(m, src)
 }
-func (m *GetCommentRes) XXX_Size() int {
+func (m *Res) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetCommentRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetCommentRes.DiscardUnknown(m)
+func (m *Res) XXX_DiscardUnknown() {
+	xxx_messageInfo_Res.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetCommentRes proto.InternalMessageInfo
+var xxx_messageInfo_Res proto.InternalMessageInfo
 
-func (m *GetCommentRes) GetUserId() string {
+func (m *Res) GetUserId() string {
 	if m != nil {
 		return m.UserId
 	}
 	return ""
 }
 
-func (m *GetCommentRes) GetText() string {
+func (m *Res) GetText() string {
 	if m != nil {
 		return m.Text
 	}
 	return ""
 }
 
-func (m *GetCommentRes) GetCreatedAt() string {
+func (m *Res) GetCreatedAt() string {
 	if m != nil {
 		return m.CreatedAt
 	}
 	return ""
 }
 
-func (m *GetCommentRes) GetPostId() string {
+func (m *Res) GetPostId() string {
 	if m != nil {
 		return m.PostId
 	}
 	return ""
 }
 
-func (m *GetCommentRes) GetCommentId() string {
+func (m *Res) GetCommentId() string {
 	if m != nil {
 		return m.CommentId
+	}
+	return ""
+}
+
+type ResG struct {
+	Comments             []*Result `protobuf:"bytes,1,rep,name=comments,proto3" json:"comments"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *ResG) Reset()         { *m = ResG{} }
+func (m *ResG) String() string { return proto.CompactTextString(m) }
+func (*ResG) ProtoMessage()    {}
+func (*ResG) Descriptor() ([]byte, []int) {
+	return fileDescriptor_03e2197c914a4a89, []int{7}
+}
+func (m *ResG) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ResG) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ResG.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ResG) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResG.Merge(m, src)
+}
+func (m *ResG) XXX_Size() int {
+	return m.Size()
+}
+func (m *ResG) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResG.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResG proto.InternalMessageInfo
+
+func (m *ResG) GetComments() []*Result {
+	if m != nil {
+		return m.Comments
+	}
+	return nil
+}
+
+type Result struct {
+	CommentId            string   `protobuf:"bytes,1,opt,name=comment_id,json=commentId,proto3" json:"comment_id"`
+	UserId               string   `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id"`
+	Text                 string   `protobuf:"bytes,3,opt,name=text,proto3" json:"text"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Result) Reset()         { *m = Result{} }
+func (m *Result) String() string { return proto.CompactTextString(m) }
+func (*Result) ProtoMessage()    {}
+func (*Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_03e2197c914a4a89, []int{8}
+}
+func (m *Result) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Result.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Result.Merge(m, src)
+}
+func (m *Result) XXX_Size() int {
+	return m.Size()
+}
+func (m *Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_Result.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Result proto.InternalMessageInfo
+
+func (m *Result) GetCommentId() string {
+	if m != nil {
+		return m.CommentId
+	}
+	return ""
+}
+
+func (m *Result) GetUserId() string {
+	if m != nil {
+		return m.UserId
+	}
+	return ""
+}
+
+func (m *Result) GetText() string {
+	if m != nil {
+		return m.Text
 	}
 	return ""
 }
@@ -442,35 +544,40 @@ func init() {
 	proto.RegisterType((*DeleteCommentReq)(nil), "comment_proto.DeleteCommentReq")
 	proto.RegisterType((*Message)(nil), "comment_proto.Message")
 	proto.RegisterType((*Empty)(nil), "comment_proto.Empty")
-	proto.RegisterType((*GetCommentRes)(nil), "comment_proto.GetCommentRes")
+	proto.RegisterType((*Res)(nil), "comment_proto.Res")
+	proto.RegisterType((*ResG)(nil), "comment_proto.ResG")
+	proto.RegisterType((*Result)(nil), "comment_proto.Result")
 }
 
 func init() { proto.RegisterFile("comment_proto/comment.proto", fileDescriptor_03e2197c914a4a89) }
 
 var fileDescriptor_03e2197c914a4a89 = []byte{
-	// 341 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4e, 0xce, 0xcf, 0xcd,
-	0x4d, 0xcd, 0x2b, 0x89, 0x2f, 0x28, 0xca, 0x2f, 0xc9, 0xd7, 0x87, 0xf2, 0xf4, 0xc0, 0x3c, 0x21,
-	0x5e, 0x14, 0x49, 0xa5, 0x08, 0x2e, 0x01, 0xe7, 0xa2, 0xd4, 0xc4, 0x92, 0x54, 0x67, 0x88, 0x70,
-	0x50, 0x6a, 0xa1, 0x90, 0x38, 0x17, 0x7b, 0x41, 0x7e, 0x71, 0x49, 0x7c, 0x66, 0x8a, 0x04, 0xa3,
-	0x02, 0xa3, 0x06, 0x67, 0x10, 0x1b, 0x88, 0xeb, 0x99, 0x02, 0x92, 0x28, 0x2d, 0x4e, 0x2d, 0x02,
-	0x49, 0x30, 0x41, 0x24, 0x40, 0x5c, 0xcf, 0x14, 0x21, 0x21, 0x2e, 0x96, 0x92, 0xd4, 0x8a, 0x12,
-	0x09, 0x66, 0xb0, 0x28, 0x98, 0xad, 0xe4, 0xc8, 0xc5, 0xeb, 0x9e, 0x5a, 0x42, 0x89, 0xb1, 0x4a,
-	0xe5, 0x5c, 0x02, 0xa1, 0x05, 0x29, 0x94, 0x3a, 0x4e, 0x96, 0x8b, 0x0b, 0xe6, 0xe7, 0xcc, 0x14,
-	0xa8, 0x13, 0x39, 0xa1, 0x22, 0x48, 0x6e, 0x67, 0x41, 0x72, 0xbb, 0x17, 0x97, 0x80, 0x4b, 0x6a,
-	0x4e, 0x2a, 0xba, 0xc5, 0x30, 0xf3, 0x19, 0xf1, 0x98, 0xcf, 0x84, 0x66, 0xbe, 0x92, 0x32, 0x17,
-	0xbb, 0x6f, 0x6a, 0x71, 0x71, 0x62, 0x7a, 0xaa, 0x90, 0x04, 0x17, 0x7b, 0x2e, 0x84, 0x09, 0x35,
-	0x02, 0xc6, 0x55, 0x62, 0xe7, 0x62, 0x75, 0xcd, 0x2d, 0x28, 0xa9, 0x54, 0x9a, 0xcc, 0x88, 0x1a,
-	0x6c, 0xc5, 0xb8, 0xed, 0x85, 0x39, 0x9c, 0x09, 0xe1, 0x70, 0xb0, 0x5b, 0xc0, 0xd1, 0x99, 0x12,
-	0x9f, 0x58, 0x02, 0xf7, 0x2b, 0x44, 0xc4, 0xb1, 0x04, 0x39, 0xf0, 0x58, 0x50, 0x02, 0x0f, 0xd5,
-	0x0f, 0xac, 0x68, 0x7e, 0x30, 0x3a, 0xc2, 0xc4, 0xc5, 0x07, 0x75, 0x52, 0x70, 0x6a, 0x51, 0x59,
-	0x66, 0x72, 0xaa, 0x90, 0x1f, 0x17, 0x2f, 0x4a, 0xc2, 0x11, 0x92, 0xd7, 0x43, 0x49, 0x59, 0x7a,
-	0xe8, 0xc9, 0x4a, 0x4a, 0x06, 0x4d, 0x01, 0xaa, 0x37, 0x3d, 0xb8, 0xb8, 0x10, 0x02, 0x42, 0xf8,
-	0xd4, 0x12, 0x32, 0xc9, 0x8f, 0x8b, 0x17, 0x25, 0xd5, 0x60, 0xb8, 0x0c, 0x3d, 0x4d, 0x11, 0x74,
-	0x19, 0x2f, 0x4a, 0x62, 0xc0, 0x30, 0x0f, 0x3d, 0xa9, 0x48, 0x89, 0xa1, 0x29, 0x80, 0xc6, 0xbf,
-	0x93, 0xc0, 0x89, 0x47, 0x72, 0x8c, 0x17, 0x1e, 0xc9, 0x31, 0x3e, 0x78, 0x24, 0xc7, 0x38, 0xe3,
-	0xb1, 0x1c, 0x43, 0x12, 0x1b, 0x58, 0x81, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x4c, 0xd0, 0xf0,
-	0x5f, 0xb3, 0x03, 0x00, 0x00,
+	// 393 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x92, 0xcd, 0x4e, 0xfa, 0x40,
+	0x14, 0xc5, 0xff, 0x53, 0x0a, 0xfd, 0x73, 0x4d, 0x4d, 0x33, 0x46, 0x6d, 0x50, 0x2b, 0xa9, 0x1b,
+	0x56, 0x18, 0x71, 0xe5, 0xca, 0x28, 0x10, 0xc4, 0xc4, 0x4d, 0xd5, 0xc4, 0x1d, 0x41, 0x7a, 0x63,
+	0x48, 0xa8, 0xad, 0x9d, 0xc1, 0x8f, 0x47, 0xf0, 0x0d, 0x7c, 0x04, 0x1f, 0xc5, 0xa5, 0x8f, 0x60,
+	0xf0, 0x45, 0x4c, 0xbf, 0x80, 0x99, 0xaa, 0xd1, 0xb8, 0xeb, 0x3d, 0xf7, 0xf6, 0xcc, 0x6f, 0xee,
+	0x1c, 0x58, 0x1b, 0xf8, 0x9e, 0x87, 0xd7, 0xbc, 0x17, 0x84, 0x3e, 0xf7, 0xb7, 0xd3, 0xaa, 0x1e,
+	0x57, 0x54, 0x17, 0x9a, 0xf6, 0x05, 0x18, 0xcd, 0x10, 0xfb, 0x1c, 0x9b, 0x89, 0xec, 0xe0, 0x0d,
+	0x5d, 0x05, 0x2d, 0xf0, 0x19, 0xef, 0x0d, 0x5d, 0x93, 0x54, 0x49, 0xad, 0xec, 0x94, 0xa2, 0xb2,
+	0xeb, 0x46, 0x8d, 0x31, 0xc3, 0x30, 0x6a, 0x28, 0x49, 0x23, 0x2a, 0xbb, 0x2e, 0xa5, 0xa0, 0x72,
+	0xbc, 0xe7, 0x66, 0x21, 0x56, 0xe3, 0x6f, 0xbb, 0x06, 0x7a, 0x07, 0xf9, 0x0f, 0x6c, 0xed, 0x3b,
+	0x30, 0xce, 0x03, 0xf7, 0xaf, 0x0c, 0x1b, 0x00, 0xd9, 0xd5, 0x86, 0x6e, 0x4a, 0x52, 0x4e, 0x95,
+	0x39, 0x44, 0x75, 0x0e, 0xf1, 0x18, 0x8c, 0x16, 0x8e, 0x50, 0x3e, 0x38, 0xf3, 0x27, 0xdf, 0xf8,
+	0x2b, 0x92, 0xbf, 0xbd, 0x05, 0xda, 0x09, 0x32, 0xd6, 0xbf, 0x42, 0x6a, 0x82, 0xe6, 0x25, 0x9f,
+	0xa9, 0x45, 0x56, 0xda, 0x1a, 0x14, 0xdb, 0x5e, 0xc0, 0x1f, 0xec, 0x47, 0x02, 0x05, 0x07, 0xd9,
+	0xd7, 0xa7, 0x65, 0xb8, 0xca, 0x0c, 0x37, 0x26, 0x88, 0xdf, 0xca, 0xed, 0xf5, 0xf9, 0xf4, 0x86,
+	0x89, 0x72, 0xc0, 0xe7, 0x57, 0xa6, 0x0a, 0x2b, 0x13, 0xc9, 0x8b, 0x32, 0xf9, 0x1e, 0xa8, 0x0e,
+	0xb2, 0x0e, 0xdd, 0x81, 0xff, 0xa9, 0xc8, 0x4c, 0x52, 0x2d, 0xd4, 0x16, 0x1a, 0xcb, 0x75, 0x21,
+	0x2c, 0x75, 0x07, 0xd9, 0x78, 0xc4, 0x9d, 0xe9, 0x98, 0x7d, 0x06, 0xa5, 0x44, 0x93, 0xce, 0x20,
+	0xf2, 0xf6, 0x7f, 0x93, 0x9c, 0xc6, 0xb3, 0x02, 0x8b, 0xe9, 0x8b, 0x9c, 0x62, 0x78, 0x3b, 0x1c,
+	0x20, 0x6d, 0x81, 0x2e, 0xc4, 0x94, 0x6e, 0x4a, 0x68, 0x72, 0x88, 0x2b, 0x34, 0xcf, 0x4e, 0xf7,
+	0x01, 0x66, 0x91, 0xa4, 0xeb, 0xd2, 0x84, 0x90, 0xd6, 0xca, 0x52, 0xfe, 0xff, 0x0e, 0x6d, 0x83,
+	0x2e, 0x24, 0x35, 0x87, 0x21, 0xe7, 0xf8, 0x73, 0x9b, 0x23, 0xd0, 0x85, 0xdc, 0xe5, 0x6c, 0xe4,
+	0x54, 0x56, 0x56, 0xa4, 0x81, 0x34, 0x6a, 0x87, 0xc6, 0xcb, 0xc4, 0x22, 0xaf, 0x13, 0x8b, 0xbc,
+	0x4d, 0x2c, 0xf2, 0xf4, 0x6e, 0xfd, 0xbb, 0x2c, 0xc5, 0x03, 0xbb, 0x1f, 0x01, 0x00, 0x00, 0xff,
+	0xff, 0xda, 0xec, 0x6d, 0x06, 0x05, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -485,9 +592,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CommentServiceClient interface {
-	CreateComment(ctx context.Context, in *CreateCommentReq, opts ...grpc.CallOption) (*GetCommentRes, error)
-	GetComment(ctx context.Context, in *GetCommentReq, opts ...grpc.CallOption) (*GetCommentRes, error)
-	UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*GetCommentRes, error)
+	CreateComment(ctx context.Context, in *CreateCommentReq, opts ...grpc.CallOption) (*Res, error)
+	GetComment(ctx context.Context, in *GetCommentReq, opts ...grpc.CallOption) (*ResG, error)
+	UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*ResG, error)
 	DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*Message, error)
 }
 
@@ -499,8 +606,8 @@ func NewCommentServiceClient(cc *grpc.ClientConn) CommentServiceClient {
 	return &commentServiceClient{cc}
 }
 
-func (c *commentServiceClient) CreateComment(ctx context.Context, in *CreateCommentReq, opts ...grpc.CallOption) (*GetCommentRes, error) {
-	out := new(GetCommentRes)
+func (c *commentServiceClient) CreateComment(ctx context.Context, in *CreateCommentReq, opts ...grpc.CallOption) (*Res, error) {
+	out := new(Res)
 	err := c.cc.Invoke(ctx, "/comment_proto.CommentService/CreateComment", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -508,8 +615,8 @@ func (c *commentServiceClient) CreateComment(ctx context.Context, in *CreateComm
 	return out, nil
 }
 
-func (c *commentServiceClient) GetComment(ctx context.Context, in *GetCommentReq, opts ...grpc.CallOption) (*GetCommentRes, error) {
-	out := new(GetCommentRes)
+func (c *commentServiceClient) GetComment(ctx context.Context, in *GetCommentReq, opts ...grpc.CallOption) (*ResG, error) {
+	out := new(ResG)
 	err := c.cc.Invoke(ctx, "/comment_proto.CommentService/GetComment", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -517,8 +624,8 @@ func (c *commentServiceClient) GetComment(ctx context.Context, in *GetCommentReq
 	return out, nil
 }
 
-func (c *commentServiceClient) UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*GetCommentRes, error) {
-	out := new(GetCommentRes)
+func (c *commentServiceClient) UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*ResG, error) {
+	out := new(ResG)
 	err := c.cc.Invoke(ctx, "/comment_proto.CommentService/UpdateComment", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -537,9 +644,9 @@ func (c *commentServiceClient) DeleteComment(ctx context.Context, in *DeleteComm
 
 // CommentServiceServer is the server API for CommentService service.
 type CommentServiceServer interface {
-	CreateComment(context.Context, *CreateCommentReq) (*GetCommentRes, error)
-	GetComment(context.Context, *GetCommentReq) (*GetCommentRes, error)
-	UpdateComment(context.Context, *UpdateCommentReq) (*GetCommentRes, error)
+	CreateComment(context.Context, *CreateCommentReq) (*Res, error)
+	GetComment(context.Context, *GetCommentReq) (*ResG, error)
+	UpdateComment(context.Context, *UpdateCommentReq) (*ResG, error)
 	DeleteComment(context.Context, *DeleteCommentReq) (*Message, error)
 }
 
@@ -547,13 +654,13 @@ type CommentServiceServer interface {
 type UnimplementedCommentServiceServer struct {
 }
 
-func (*UnimplementedCommentServiceServer) CreateComment(ctx context.Context, req *CreateCommentReq) (*GetCommentRes, error) {
+func (*UnimplementedCommentServiceServer) CreateComment(ctx context.Context, req *CreateCommentReq) (*Res, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateComment not implemented")
 }
-func (*UnimplementedCommentServiceServer) GetComment(ctx context.Context, req *GetCommentReq) (*GetCommentRes, error) {
+func (*UnimplementedCommentServiceServer) GetComment(ctx context.Context, req *GetCommentReq) (*ResG, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComment not implemented")
 }
-func (*UnimplementedCommentServiceServer) UpdateComment(ctx context.Context, req *UpdateCommentReq) (*GetCommentRes, error) {
+func (*UnimplementedCommentServiceServer) UpdateComment(ctx context.Context, req *UpdateCommentReq) (*ResG, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
 }
 func (*UnimplementedCommentServiceServer) DeleteComment(ctx context.Context, req *DeleteCommentReq) (*Message, error) {
@@ -733,13 +840,6 @@ func (m *GetCommentReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.UserId) > 0 {
-		i -= len(m.UserId)
-		copy(dAtA[i:], m.UserId)
-		i = encodeVarintComment(dAtA, i, uint64(len(m.UserId)))
-		i--
-		dAtA[i] = 0x12
-	}
 	if len(m.PostId) > 0 {
 		i -= len(m.PostId)
 		copy(dAtA[i:], m.PostId)
@@ -907,7 +1007,7 @@ func (m *Empty) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetCommentRes) Marshal() (dAtA []byte, err error) {
+func (m *Res) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -917,12 +1017,12 @@ func (m *GetCommentRes) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetCommentRes) MarshalTo(dAtA []byte) (int, error) {
+func (m *Res) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetCommentRes) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *Res) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -963,6 +1063,95 @@ func (m *GetCommentRes) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.UserId)
 		copy(dAtA[i:], m.UserId)
 		i = encodeVarintComment(dAtA, i, uint64(len(m.UserId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ResG) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ResG) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ResG) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Comments) > 0 {
+		for iNdEx := len(m.Comments) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Comments[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintComment(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Result) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Result) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Result) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Text) > 0 {
+		i -= len(m.Text)
+		copy(dAtA[i:], m.Text)
+		i = encodeVarintComment(dAtA, i, uint64(len(m.Text)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.UserId) > 0 {
+		i -= len(m.UserId)
+		copy(dAtA[i:], m.UserId)
+		i = encodeVarintComment(dAtA, i, uint64(len(m.UserId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.CommentId) > 0 {
+		i -= len(m.CommentId)
+		copy(dAtA[i:], m.CommentId)
+		i = encodeVarintComment(dAtA, i, uint64(len(m.CommentId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1011,10 +1200,6 @@ func (m *GetCommentReq) Size() (n int) {
 	var l int
 	_ = l
 	l = len(m.PostId)
-	if l > 0 {
-		n += 1 + l + sovComment(uint64(l))
-	}
-	l = len(m.UserId)
 	if l > 0 {
 		n += 1 + l + sovComment(uint64(l))
 	}
@@ -1100,7 +1285,7 @@ func (m *Empty) Size() (n int) {
 	return n
 }
 
-func (m *GetCommentRes) Size() (n int) {
+func (m *Res) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1123,6 +1308,48 @@ func (m *GetCommentRes) Size() (n int) {
 		n += 1 + l + sovComment(uint64(l))
 	}
 	l = len(m.CommentId)
+	if l > 0 {
+		n += 1 + l + sovComment(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *ResG) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Comments) > 0 {
+		for _, e := range m.Comments {
+			l = e.Size()
+			n += 1 + l + sovComment(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *Result) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.CommentId)
+	if l > 0 {
+		n += 1 + l + sovComment(uint64(l))
+	}
+	l = len(m.UserId)
+	if l > 0 {
+		n += 1 + l + sovComment(uint64(l))
+	}
+	l = len(m.Text)
 	if l > 0 {
 		n += 1 + l + sovComment(uint64(l))
 	}
@@ -1345,38 +1572,6 @@ func (m *GetCommentReq) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.PostId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UserId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowComment
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthComment
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthComment
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.UserId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1828,7 +2023,7 @@ func (m *Empty) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetCommentRes) Unmarshal(dAtA []byte) error {
+func (m *Res) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1851,10 +2046,10 @@ func (m *GetCommentRes) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetCommentRes: wiretype end group for non-group")
+			return fmt.Errorf("proto: Res: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetCommentRes: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Res: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2016,6 +2211,238 @@ func (m *GetCommentRes) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.CommentId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipComment(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthComment
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ResG) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowComment
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ResG: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ResG: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Comments", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComment
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthComment
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthComment
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Comments = append(m.Comments, &Result{})
+			if err := m.Comments[len(m.Comments)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipComment(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthComment
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Result) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowComment
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Result: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Result: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CommentId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComment
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthComment
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthComment
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CommentId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field UserId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComment
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthComment
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthComment
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.UserId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Text", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComment
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthComment
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthComment
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Text = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
