@@ -19,6 +19,7 @@ type UserRepo struct {
 func NewUserRepo(db *sqlx.DB) *UserRepo {
 	return &UserRepo{db: db}
 }
+
 func (r *UserRepo) CreateUser(req *pu.CreateUserReq) (*pu.GetUserRes, error) {
 	var (
 		UserId string
@@ -64,6 +65,7 @@ func (r *UserRepo) CreateUser(req *pu.CreateUserReq) (*pu.GetUserRes, error) {
 	tx.Commit()
 	return r.GetUser(&pu.GetUserReq{Username: req.Username})
 }
+
 func (r *UserRepo) GetUser(req *pu.GetUserReq) (*pu.GetUserRes, error) {
 	var (
 		ImgType  string
@@ -100,6 +102,7 @@ func (r *UserRepo) GetUser(req *pu.GetUserReq) (*pu.GetUserRes, error) {
 
 	return &res, nil
 }
+
 func (r *UserRepo) UpdateUser(req *pu.UpdateUserReq) (*pu.GetUserRes, error) {
 	queryUser := `UPDATE users SET first_name=$2, last_name=$3, username=$4, phone=$5, email=$6, gender=$7 WHERE user_id=$1 AND deleted_at IS NULL RETURNING username`
 	queryPhoto := `UPDATE user_photo SET type=$2, basecode=$3 WHERE user_id=$1`
@@ -126,6 +129,7 @@ func (r *UserRepo) UpdateUser(req *pu.UpdateUserReq) (*pu.GetUserRes, error) {
 	tx.Commit()
 	return r.GetUser(&pu.GetUserReq{Username: req.Username})
 }
+
 func (r *UserRepo) DeleteUser(req *pu.DeleteUserReq) (*pu.Message, error) {
 	queryUser := `UPDATE users SET deleted_at=$2 WHERE user_id=$1 AND deleted_at IS NULL`
 	queryPhoto := `DELETE FROM user_photo WHERE user_id=$1`
@@ -144,6 +148,7 @@ func (r *UserRepo) DeleteUser(req *pu.DeleteUserReq) (*pu.Message, error) {
 	}
 	return &pu.Message{Message: "Deleted!"}, nil
 }
+
 func (r *UserRepo) SearchUser(req *pu.SearchUserReq) (*pu.UserList, error) {
 	res := pu.UserList{}
 	query := `SELECT user_id, username FROM users WHERE username LIKE '` + req.Username + `%' AND deleted_at IS NULL`
