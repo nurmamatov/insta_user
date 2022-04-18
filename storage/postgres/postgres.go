@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -25,7 +26,7 @@ func (r *UserRepo) CreateUser(req *pu.CreateUserReq) (*pu.GetUserRes, error) {
 	)
 	queryUser := `INSERT INTO users (
 				user_id, 
-				firs_name,
+				first_name,
 				last_name,
 				username,
 				password,
@@ -34,7 +35,7 @@ func (r *UserRepo) CreateUser(req *pu.CreateUserReq) (*pu.GetUserRes, error) {
 				gender,
 				created_at)
 			VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`
-	queryPhoto := `INSERT INTO user_photo (image_id, user_id, type, base_code) VALUES($1,$2,$3,$4)`
+	queryPhoto := `INSERT INTO user_photo (image_id, user_id, type, basecode) VALUES($1,$2,$3,$4)`
 
 	tx, err := r.db.Begin()
 	if err != nil {
@@ -53,7 +54,7 @@ func (r *UserRepo) CreateUser(req *pu.CreateUserReq) (*pu.GetUserRes, error) {
 	}
 
 	img := strings.Split(req.Photo, ",")
-	_, err = tx.Exec(queryPhoto, UserId, img[0], img[1])
+	_, err = tx.Exec(queryPhoto, uuid.New(), UserId, img[0], img[1])
 	if err != nil {
 		log.Println("Erro while insert user_photo", err)
 		tx.Rollback()
@@ -67,10 +68,10 @@ func (r *UserRepo) GetUser(req *pu.GetUserReq) (*pu.GetUserRes, error) {
 	var (
 		ImgType  string
 		BaseCode string
+		res      pu.GetUserRes
 	)
-	res := pu.GetUserRes{}
 	queryUser := `SELECT user_id, first_name, last_name, username, phone, email, gender, created_at FROM users WHERE username=$1 AND deleted_at IS NULL`
-	queryPhoto := `SELECT type, base_code FROM user_photo WHERE user_id=$1`
+	queryPhoto := `SELECT type, basecode FROM user_photo WHERE user_id=$1`
 	err := r.db.QueryRow(queryUser, req.Username).Scan(
 		&res.UserId,
 		&res.FirstName,
@@ -81,6 +82,7 @@ func (r *UserRepo) GetUser(req *pu.GetUserReq) (*pu.GetUserRes, error) {
 		&res.Gender,
 		&res.CreatedAt,
 	)
+
 	if err != nil {
 		log.Println("Error while get user", err)
 		return nil, err
@@ -94,19 +96,23 @@ func (r *UserRepo) GetUser(req *pu.GetUserReq) (*pu.GetUserRes, error) {
 		log.Println("Error while get user photo", err)
 		return nil, err
 	}
-	res.Photo = ImgType + BaseCode
+	res.Photo = ImgType + "," + BaseCode
+
 	return &res, nil
 }
 func (r *UserRepo) UpdateUser(req *pu.UpdateUserReq) (*pu.GetUserRes, error) {
-	queryUser := `UPDATE users SET first_name=$2, last_name=$3, username=$4, phone=$5, email=$6, gender=$7 WHERE user_id=$1 AND deleted_at IS NULL`
-	queryPhoto := `UPDATE user_photo SET type=$2, base_code=$3 WHERE user_id=$1`
+	queryUser := `UPDATE users SET first_name=$2, last_name=$3, username=$4, phone=$5, email=$6, gender=$7 WHERE user_id=$1 AND deleted_at IS NULL RETURNING username`
+	queryPhoto := `UPDATE user_photo SET type=$2, basecode=$3 WHERE user_id=$1`
 
 	tx, err := r.db.Begin()
 	if err != nil {
 		log.Println("Error while begin tx in update user", err)
 		return nil, err
 	}
-	_, err = tx.Exec(queryUser, req.UserId, req.FirstName, req.LastName, req.Username, req.Phone, req.Email, req.Gender)
+	err = tx.QueryRow(queryUser, req.UserId, req.FirstName, req.LastName, req.Username, req.Phone, req.Email, req.Gender).Scan(
+		&req.Username,
+	)
+
 	if err != nil {
 		log.Println("Error while update user", err)
 		return nil, err
@@ -117,10 +123,11 @@ func (r *UserRepo) UpdateUser(req *pu.UpdateUserReq) (*pu.GetUserRes, error) {
 		log.Println("Error while update user_photo", err)
 		return nil, err
 	}
+	tx.Commit()
 	return r.GetUser(&pu.GetUserReq{Username: req.Username})
 }
 func (r *UserRepo) DeleteUser(req *pu.DeleteUserReq) (*pu.Message, error) {
-	queryUser := `UPDATE users SET deleted_at=$2 WHERE user_id=$1 AND deleted_a IS NULL`
+	queryUser := `UPDATE users SET deleted_at=$2 WHERE user_id=$1 AND deleted_at IS NULL`
 	queryPhoto := `DELETE FROM user_photo WHERE user_id=$1`
 
 	now := time.Now().Format(time.RFC3339)
@@ -135,15 +142,15 @@ func (r *UserRepo) DeleteUser(req *pu.DeleteUserReq) (*pu.Message, error) {
 		log.Println("Error while delete user_photo")
 		return nil, err
 	}
-
 	return &pu.Message{Message: "Deleted!"}, nil
 }
 func (r *UserRepo) SearchUser(req *pu.SearchUserReq) (*pu.UserList, error) {
 	res := pu.UserList{}
-	query := `SELECT user_id, username FROM users WHERE username LIKE '$1%'`
-	rows, err := r.db.Query(query, req.Username)
+	query := `SELECT user_id, username FROM users WHERE username LIKE '` + req.Username + `%' AND deleted_at IS NULL`
+	rows, err := r.db.Query(query)
+
 	if err != nil {
-		log.Println("Erro while search")
+		log.Println("Erro while search", err)
 		return nil, err
 	}
 	for rows.Next() {
@@ -162,22 +169,29 @@ func (r *UserRepo) SearchUser(req *pu.SearchUserReq) (*pu.UserList, error) {
 	return &res, nil
 }
 
-func (r *UserRepo) Login(req *pu.LoginReq) (*pu.GetUserRes, error) {
+func (r *UserRepo) Login(req *pu.LoginReq) (string, error) {
 
 	var (
-		check int
+		username string
 	)
-	query := `SELECT COUNT(*) FROM users WHERE username=$1 AND password=$2 AND deleted_at IS NULL`
+	query := `SELECT username FROM users WHERE username=$1 AND password=$2 AND deleted_at IS NULL`
 	err := r.db.QueryRow(query, req.Username, req.Password).Scan(
-		&check,
+		&username,
 	)
 	if err != nil {
-		log.Println("Error while login")
-		return nil, err
+		fmt.Println("Error while login check", err)
+		return "", err
 	}
 
-	return r.GetUser(&pu.GetUserReq{Username: req.Username})
+	return username, nil
 }
-func (r *UserRepo) UpdatePassword(req *pu.UpdatePass) (*pu.Message, error) {
-	return nil, nil
+func (r *UserRepo) UpdatePassword(UserId string, NewPassword string, OldPassword string) (*pu.Message, error) {
+	user_id := ""
+	query := `UPDATE users SET password='` + NewPassword + `' WHERE user_id='` + UserId + `' AND password='` + OldPassword + `' AND deleted_at IS NULL RETURNING password`
+	err := r.db.QueryRow(query).Scan(&user_id)
+	if err != nil {
+		fmt.Println(err)
+		return &pu.Message{Message: "Can't changed!"}, err
+	}
+	return &pu.Message{Message: "Changed!"}, nil
 }
